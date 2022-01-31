@@ -162,9 +162,11 @@
         <p class="Footer__ThemeAuthor">{{ powered_by_link }}</p>
         {% endcomment %}
       </div>
-      
+
       {% if section.settings.text_copyright != blank %}
-        <div class="Footer-made">Made by <a href="{{ section.settings.text_link }}" class="Heading">{{ section.settings.text_copyright }}</a></div>
+        <div class="Footer-made"><a href="https://minionmade.com?utm_source={{ shop.permanent_domain | remove: '.myshopify.com' }}" target="_blank">Managed by Minion Made.</a>
+<a href="https://www.shopify.com/?ref=minion-made&utm_campaign={{ shop.permanent_domain | remove: '.myshopify.com' }}" target="_blank"> Powered by Shopify.</a>
+</div>
       {% endif %}
 
       {%- if section.settings.show_payment_methods -%}
