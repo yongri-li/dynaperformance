@@ -1,0 +1,112 @@
+{% if section.blocks.size > 0 %}
+<section class="interior-video-text big-p-block">
+
+  {% for block in section.blocks %}
+  {% case block.type %}
+  {% when 'image_left_side' %}
+  <div class="section-padding steering-text-img-part">     
+    <div class="Container">
+      <div class="Grid Grid--center big-grid align-items-center">
+        {% if block.settings.image_left != blank %}
+        <div class="Grid__Cell pro-video-col">
+          <img src="{{ block.settings.image_left | img_url: 'master' }}" alt="{{ block.settings.image_left.alt }}" />
+        </div>
+        {% endif %}
+        <div class="Grid__Cell pro-text-cell">
+          {% if block.settings.title1 != blank %}
+          <header class="SectionHeader">
+            <h2 class="SectionHeader__Heading shadow-bottom">{{ block.settings.title1 }}</h2>
+          </header>
+          {% endif %}
+          {% if block.settings.subheading1 != blank %}
+          {{ block.settings.subheading1 }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% when 'image_right_side' %}
+  <div class="section-padding steering-text-img-part">
+    <div class="Container">
+      <div class="Grid Grid--center big-grid reverse-pro-section align-items-center">
+        {% if block.settings.image_right != blank %}
+        <div class="Grid__Cell pro-video-col">
+          <img src="{{ block.settings.image_right | img_url: 'master' }}" alt="{{ block.settings.image_right.alt }}" />
+        </div>
+        {% endif %}
+        <div class="Grid__Cell pro-text-cell">
+          {% if block.settings.title2 != blank %}
+          <header class="SectionHeader">
+            <h2 class="SectionHeader__Heading shadow-bottom">{{ block.settings.title2 }}</h2>
+          </header>
+          {% endif %}
+          {% if block.settings.subheading2 != blank %}
+          {{ block.settings.subheading2 }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endcase %}
+  {% endfor %}
+
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Steering Image Texts",
+	"class": "steering-image-texts",
+    "settings": [
+	  
+	],
+	"blocks": [
+      {
+      "type": "image_left_side",
+      "name": "Image Left Side",
+      "settings": [
+          {
+            "type": "text",
+            "id": "title1",
+            "label": "Main Heading",
+            "default": "Fully Customizable"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading1",
+            "label": "Add Sub Heading",
+            "default": "<p>We enable you to buy with confidence and trust.</p>"
+          },
+		  {
+            "type": "image_picker",
+            "id": "image_left",
+            "label": "Image Left"
+          }
+        ]
+      },
+	  {
+      "type": "image_right_side",
+      "name": "Image Right Side",
+      "settings": [
+		  {
+            "type": "text",
+            "id": "title2",
+            "label": "Main Heading",
+            "default": "Highest Quality Material"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading2",
+            "label": "Add Sub Heading",
+            "default": "<p>We enable you to buy with confidence and trust.</p>"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_right",
+            "label": "Image Right"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,91 @@
+<section class="home-icon-text section-padding">
+  <div class="Container">
+    {% if section.settings.title != blank %}
+      <header class="SectionHeader SectionHeader--center">
+        <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+      </header>
+    {% endif %}
+    {% if section.blocks.size > 0 %}
+      <div class="Grid Grid--center">
+        {% for block in section.blocks %}
+          <div class="Grid__Cell 1/3--lap-and-up">
+            <div class="icon-text-info">
+              {% if block.settings.image != blank %}
+                <div class="home-icon-img">
+                  <img alt="{{ block.settings.image.alt }}" src="{{ block.settings.image | img_url: 'master' }}">
+                </div>
+              {% endif %}
+              {% if block.settings.title != blank %}
+                <h5>{{ block.settings.title }}</h5>
+              {% endif %}
+              {% if block.settings.subheading != blank %}
+                {{ block.settings.subheading }}
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Icon with text",
+	"max_blocks": 3,
+    "settings": [
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Author Top Name",
+        "default": "Buy with Confidence"
+      }
+	],
+	"blocks": [
+      {
+        "type": "icon_text_block",
+        "name": "Icon Text Block",
+        "settings": [
+		  {
+            "type": "header",
+            "content": "Top Section"
+          },
+		  {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Add Image"
+          },
+		  {
+            "type": "text",
+            "id": "title",
+            "label": "Add Heading",
+            "default": "Free Shipping <span>over 99$</span>"
+          },
+		  {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "Add Sub Heading",
+            "default": "<p>If we ship to your country, you’re in luck — standard shipping is on the house!</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Icon with text",
+        "category": "Image",
+		"blocks": [
+          {
+            "type": "icon_text_block"
+          },
+          {
+            "type": "icon_text_block"
+          },
+          {
+            "type": "icon_text_block"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,74 @@
+<section class="interior-image-text section-padding big-p-block">
+  <div class="interior-image-full">
+    <div class="Container">
+      <div class="Grid Grid--center big-grid reverse-pro-section align-items-center">
+        {% if section.settings.imageleft != blank %}
+          <div class="Grid__Cell pro-video-col">
+            <div class="pro-grid-img">
+              <img src="{{ section.settings.imageleft | img_url: 'master' }}" alt="{{ section.settings.imageleft.alt }}">
+            </div>
+          </div>
+        {% endif %}
+        <div class="Grid__Cell pro-text-cell">
+          {% if section.settings.title != blank %}
+            <header class="SectionHeader">
+              <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+            </header>
+          {% endif %}
+          {% if section.blocks.size > 0 %}
+          	{% for block in section.blocks %}
+          	  <div class="interior-text-box">
+                {% if block.settings.title != blank %}
+                  <h4>{{ block.settings.title }}</h4>
+                {% endif %}
+                {% if block.settings.subheading != blank %}
+                  <p class="Text--subdued">{{ block.settings.subheading }}<p>
+                {% endif %}
+              </div>
+          	{% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Interior Image Text",
+	"max_blocks": 3,
+    "settings": [
+	  {
+        "type": "image_picker",
+        "id": "imageleft",
+        "label": "Add Right Image"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Add Heading",
+        "default": "Carbon Fiber composition"
+      }
+	],
+	"blocks": [
+      {
+        "type": "text_block",
+        "name": "Text Block",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Add Heading",
+            "default": "Resin Rubber"
+          },
+		  {
+            "type": "textarea",
+            "id": "subheading",
+            "label": "Add Sub Heading",
+            "default": "Top coat to protect your overlay from fading, oxidizing or decompozing."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

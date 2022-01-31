@@ -1,0 +1,49 @@
+<section class="video-image-text-section section-padding dark-bg big-p-block">
+  <div class="Container">
+    <div class="Grid Grid--center big-grid"> 
+      <div class="Grid__Cell pro-video-col">
+        {% if section.settings.imageright != blank %}
+          <div class="pro-grid-img">
+            <img src="{{ section.settings.imageright | img_url: 'master' }}" alt="{{ section.settings.imageright.alt }}">
+          </div>
+        {% endif %}
+      </div>
+      <div class="Grid__Cell pro-text-cell">
+        {% if section.settings.title != blank %}
+           <h2 class="SectionHeader__Heading">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.title_info != blank %}
+          <div class="pro-features">
+            {{ section.settings.title_info }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Steering Video Image Text",
+	"class": "steering-video-image-text",
+    "settings": [
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Main Heading",
+        "default": "100% Real Carbon FIber"
+      },
+	  {
+        "type": "textarea",
+        "id": "title_info",
+        "label": "Add Sub Heading",
+        "default": "<ul><li><span>100%</span> genuine carbon fiber</li></ul>"
+      },
+	  {
+        "type": "image_picker",
+        "id": "imageright",
+        "label": "Add Right Image"
+      }
+	]
+  }
+{% endschema %}

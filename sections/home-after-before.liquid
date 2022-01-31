@@ -1,0 +1,156 @@
+<section class="home-after-before section-padding">
+  <div class="Container">
+    {% if section.settings.title != blank %}
+    <header class="SectionHeader mob-show-title">
+      <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+    </header>
+    {% endif %}
+    <div class="Grid Grid--center">
+      <div class="1/2--lap-and-up Grid__Cell after-before-img-col">
+        <div class="img-box">
+          {% if section.settings.beforeimage != blank %}
+			<img src="{{ section.settings.beforeimage | img_url: 'master' }}" class="before-image" style="display:none;" alt="{{ section.settings.beforeimage.alt }}">
+          {% endif %}
+          {% if section.settings.afterimage != blank %}
+          	<img src="{{ section.settings.afterimage | img_url: 'master' }}" class="after-image" alt="{{ section.settings.afterimage.alt }}">
+          {% endif %}
+        </div>
+        <div class="img-btn">
+          {% if section.settings.beforetitle != blank %}
+            <a href="javascript:void(0)" id="before_img" class="before_after_images">{{ section.settings.beforetitle }}</a>
+          {% endif %}
+          {% if section.settings.aftertitle != blank %}
+            <a href="javascript:void(0)" id="after_img" class="before_after_images active">{{ section.settings.aftertitle }}</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="1/2--lap-and-up Grid__Cell after-before-info-col">
+        {% if section.settings.title != blank %}
+          <header class="SectionHeader desk-show-title">
+            <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+          </header>
+        {% endif %}
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="after-before-info">
+              {% if block.settings.image != blank %}
+                <div class="info-img">
+                  <img alt="{{ block.settings.image.alt }}" src="{{ block.settings.image | img_url: 'master' }}">
+                </div>
+              {% endif %}
+              <div class="info-box">
+                {% if block.settings.title != blank %}
+                  <h5>{{ block.settings.title }}</h5>
+                {% endif %}
+                {% if block.settings.subheading != blank %}
+                  {{ block.settings.subheading }}
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+  $("#before_img").click(function(){
+    $(".before_after_images").removeClass("active");
+    $(this).addClass("active")
+  	$(".after-image").css("display","none");
+    $(".before-image").fadeIn();
+  })
+  $("#after_img").click(function(){
+  	$(".before_after_images").removeClass("active");
+    $(this).addClass("active")
+  	$(".before-image").css("display","none");
+    $(".after-image").fadeIn();
+  })
+</script>
+
+{% schema %}
+  {
+    "name": "After and Before",
+	"max_blocks": 3,
+    "settings": [
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Main Heading",
+        "default": "Why choose DYNA?"
+      },
+	  {
+        "type": "image_picker",
+        "id": "beforeimage",
+        "label": "Add Before Image"
+      },
+	  {
+        "type": "text",
+        "id": "beforetitle",
+        "label": "Before Heading Text",
+        "default": "Before"
+      },
+	  {
+        "type": "image_picker",
+        "id": "afterimage",
+        "label": "Add After Image"
+      },
+	  {
+        "type": "text",
+        "id": "aftertitle",
+        "label": "After Heading Text",
+        "default": "After"
+      }
+	],
+	"blocks": [
+      {
+        "type": "icon_text_block",
+        "name": "Icon Text Block",
+        "settings": [
+		  {
+            "type": "header",
+            "content": "Top Section"
+          },
+		  {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Add Image"
+          },
+		  {
+            "type": "text",
+            "id": "title",
+            "label": "Add Heading",
+            "default": "The highest quality <span>materials on the market</span>"
+          },
+		  {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "Add Sub Heading",
+            "default": "<p>At Dyna Performance, we never compromise quality for price and use only the highest quality materials on the market.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "After and Before",
+        "category": "Image",
+		"blocks": [
+          {
+            "type": "icon_text_block"
+          },
+          {
+            "type": "icon_text_block"
+          },
+          {
+            "type": "icon_text_block"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+

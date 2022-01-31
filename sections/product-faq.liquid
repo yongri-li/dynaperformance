@@ -1,0 +1,65 @@
+{% if section.blocks.size > 0 %}
+  <section class="product-faq section-padding">
+    <div class="Container">
+      <div class="Grid Grid--center big-grid">
+        {% if section.settings.title != blank %}
+          <div class="Grid__Cell faq-head-cell">
+            <header class="SectionHeader">
+              <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+            </header>
+          </div>
+        {% endif %}
+        <div class="Grid__Cell faq-info-cell">
+          <ul id="pro-accordion" class="pro-accordion-box">
+            {% for block in section.blocks %}
+              <li class="accordion-box">
+                {% if block.settings.title != blank %}
+                  <a href="JavaScript:Void(0);" class="title">{{ block.settings.title }} <span class="plus"><img alt="" src="https://cdn.shopify.com/s/files/1/1955/0423/files/plus-icon.svg?v=1586758602"></span><span class="minus"><img alt="" src="https://cdn.shopify.com/s/files/1/1955/0423/files/minus-icon.svg?v=1586758602"></span></a>
+                {% endif %}
+                {% if block.settings.subheading != blank %}
+                  <div class="panel">
+                    {{ block.settings.subheading }}
+                  </div>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product FAQ",
+    "settings": [
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Add Heading",
+        "default": "FAQ"
+      }
+	],
+	"blocks": [
+      {
+        "type": "faq_information",
+        "name": "FAQ Information",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Airbags"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "Add Subheading",
+            "default": "<p>All steering wheels don't include airbags. Reuse your current steering wheel's airbag.</p>"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

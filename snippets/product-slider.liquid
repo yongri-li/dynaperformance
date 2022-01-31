@@ -1,0 +1,41 @@
+{%- if product.images.size > 0 -%}
+<div class="product_slider pro_main_img">
+    <div class="pro-inner-slider">
+  <div class="Product__ActionItem hidden-lap-and-up">
+    <button class="RoundButton RoundButton--small RoundButton--flat" data-action="open-product-zoom">{% include 'icon' with 'plus' %}</button>
+  </div>
+
+  <div class="pro_thumnail">
+    {% for image in product.images %}
+    <div>
+      <div class="product_thumbnails">
+        <img src="{{ image.src | img_url: '110x110', scale: 2 }}" alt="{{ image.alt | escape }}" data-image-id="{{ image.id }}">
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="pro_main_slider Product__Slideshow--zoomable">
+    {% for image in product.images %}
+    <div class="pro_img Product__SlideItem--image{% if initial_image_id == image.id %} is-selected{% endif %}" {% unless is_video %}data-image-position-ignoring-video="{% increment image_position_without_video %}"{% endunless %} {% if enable_zoom %} data-zoom="{{ image.src | img_url: '1024x1024', scale: 2 }}"{% endif %} data-image-media-position="{{ forloop.index0 }}"> 
+      <img class="product_img" src="{{ image.src | img_url: 'master' }}" data-max-width="{{ image.width }}" data-max-height="{{ image.height }}" data-original-src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}">              
+    </div>
+    {% endfor %}            
+  </div>
+
+  {%- for tag in product.tags -%}
+  {%- if tag contains '__label' -%}
+  <span class="ProductItem__Label Heading Text--subdued">{{ tag | split: '__label:' | last }}</span>
+  {%- break -%}
+  {%- endif -%}
+  {%- endfor -%}
+  </div>
+  {% if product.metafields.custom_fields["installation_video"] != blank %}
+  <div class="video-play-button">
+    <a class="popup-youtube" href="{{ product.metafields.custom_fields["installation_video"] }}">
+    	<img src="{{ 'play_1.png' | file_url }}"> Watch the Installation Video
+    </a>
+  </div>
+  {% endif %}
+</div>
+{%- endif -%}

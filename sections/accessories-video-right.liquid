@@ -1,0 +1,86 @@
+<div class="section-padding pro-features-section pro-text-cell">
+  <div class="Container">
+    <div class="Grid Grid--center big-grid reverse-pro-section">
+      <div class="Grid__Cell pro-video-col">
+        <div class="video-iframe-wrap">
+          
+          {% if section.settings.image_1 != blank %}
+            <img  id="accessories_video_cover_right" src="{{ section.settings.image_1 | img_url: 'master' }}" alt="Video title">
+          {% endif %}
+          {% if section.settings.video_url_1 != blank %}
+            <iframe id="accessories_player_right" width="560" height="315" src="https://www.youtube.com/embed/{{ section.settings.video_url_1.id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+          {% endif %}
+          <button id="accessories_play_right" class="play-btn">
+              <svg width="97" height="97" viewBox="0 0 97 97" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M41 39.7876V59.2126C41 60.6939 42.6313 61.5939 43.8875 60.7876L59.15 51.0751C59.4172 50.906 59.6373 50.6721 59.7898 50.395C59.9423 50.118 60.0223 49.807 60.0223 49.4907C60.0223 49.1745 59.9423 48.8634 59.7898 48.5864C59.6373 48.3094 59.4172 48.0755 59.15 47.9064L43.8875 38.2126C43.6047 38.0297 43.2778 37.9265 42.9412 37.9139C42.6046 37.9013 42.2709 37.9798 41.9752 38.1411C41.6795 38.3024 41.4328 38.5405 41.2612 38.8303C41.0896 39.1201 40.9993 39.4508 41 39.7876Z" fill="white"/>
+                <circle cx="48.5" cy="48.5" r="47.5" stroke="white" stroke-opacity="0.8" stroke-width="2"/>
+            </svg>
+          </button>
+          
+        </div>
+        {% if section.settings.image_heading != blank %}
+          <p class="Text--subdued">{{ section.settings.image_heading }}</p>
+        {% endif %}
+      </div>
+      <div class="Grid__Cell pro-features-box pro-text-cell">
+        {% if section.settings.title != blank %}
+          <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+          <div class="pro-features">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#accessories_play_right').on('click', function(e) {
+	e.preventDefault();
+	$("#accessories_player_right")[0].src += "?autoplay=1";
+	$('#accessories_player_right').show();
+	$('#accessories_video_cover_right').hide();
+	$('#accessories_play_right').hide();
+  })
+</script>
+
+{% schema %}
+  {
+    "name": "Accessories Video Right",
+    "settings": [
+	  {
+        "type": "textarea",
+        "id": "image_heading",
+        "label": "Add Image Heading",
+        "default": "Every single one of our covers goes through extreme high standard precision factory quality checks to ensure quality control of every single case."
+      },
+	  {
+        "type": "video_url",
+        "id": "video_url_1",
+        "label": "YouTube link",
+        "accept": ["youtube"],
+		"info": "Note : https://youtu.be/VKD1WeA1_aQ"
+      },
+	  {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "Video Image",
+        "info": "1500 x 800px .jpg recommended"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Add Heading",
+        "default": "Protect your Car keys"
+      },
+	  {
+        "type": "textarea",
+        "id": "subheading",
+        "label": "Add Sub Heading",
+        "default": "Sub Heading"
+      }
+	]
+  }
+{% endschema %}

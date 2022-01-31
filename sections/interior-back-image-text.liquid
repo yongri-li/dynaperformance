@@ -1,0 +1,56 @@
+<section class="interior-back-image-text section-padding big-p-block dark-bg">
+  <div class="Container">
+    <div class="Grid Grid--center big-grid align-items-center">
+      <div class="Grid__Cell pro-video-col">
+        <div class="pro-grid-img">
+          {% if section.settings.imageleft != blank %}
+          	<img src="{{ section.settings.imageleft | img_url: 'master' }}" alt="{{ section.settings.imageleft.alt }}">
+          {% endif %}
+          {% if section.settings.imagetext != blank %}
+            <span>{{ section.settings.imagetext }}</span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="Grid__Cell pro-text-cell">
+        {% if section.settings.title != blank %}
+          <h2 class="SectionHeader__Heading">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.title_info != blank %}
+          {{ section.settings.title_info }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Interior Back Image Text",
+	"class": "interior-back-image-text",
+    "settings": [
+	  {
+        "type": "image_picker",
+        "id": "imageleft",
+        "label": "Add Left Image"
+      },
+	  {
+        "type": "text",
+        "id": "imagetext",
+        "label": "Add Image Text",
+        "default": "SEMA 2019"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Main Heading",
+        "default": "<span>Trusted</span> by the industry's leading car builds"
+      },
+	  {
+        "type": "richtext",
+        "id": "title_info",
+        "label": "Add Sub Heading",
+        "default": "<p>Instantly differentiate your build's interior and win over crowds at your favorite car meets!</p>"
+      }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,10 @@
+{% section 'product-template' %}
+{% section 'product-recommendations' %}
+{% section 'recently-viewed-products' %}
+
+<script>
+  window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)};
+  ShopifyXR('addModels', {{ product.media | where: 'media_type', 'model' | json }});
+</script>
+
+<script src="https://widget.sezzle.com/v1/javascript/price-widget?uuid=3b7b6354-b934-403c-abd3-cd30e6a6e971"></script>

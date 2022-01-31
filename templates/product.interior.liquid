@@ -1,0 +1,25 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+{% render 'breadcrumbs' %}
+
+{% section 'product-interior-template' %}
+{% section 'interior-video-image-text' %}
+{% section 'interior-image-text'  %}
+{% section 'interior-video-text' %}
+{% section 'interior-back-image-text' %}
+
+{% section 'interior-icon-with-text' %}
+
+<div class="section-padding pb-0">
+  <div class="Container">
+    <div id="looxReviews" data-product-id="{{product.id}}" class="loox-reviews-default"></div>
+  </div>
+</div>
+
+{% section 'product-recommendations' %}
+{% section 'recently-viewed-products' %}
+
+<script>
+  window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)};
+  ShopifyXR('addModels', {{ product.media | where: 'media_type', 'model' | json }});
+</script>

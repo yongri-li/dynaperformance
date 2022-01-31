@@ -1,0 +1,129 @@
+<section class="dyna-led-section section-padding pb-0">
+  <div class="dyna-led-top">
+    <div class="Container">
+      {% if section.settings.title != blank %}
+        <header class="SectionHeader SectionHeader--center">
+          <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+        </header>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="h5">{{ section.settings.subheading }}</p>
+      {% endif %}
+      {% if section.settings.image1 != blank %}
+        <img class="led-big-img" alt="{{ section.settings.image1.alt }}" src="{{ section.settings.image1 | img_url: 'master' }}">
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="section-padding dyna-led-bottom">
+    <div class="Container">
+      <div class="Grid Grid--center big-grid">
+        <div class="Grid__Cell led-icon-cell">
+          {% if section.blocks.size > 0 %}
+            <div class="Grid__Cell_icon">
+              {% for block in section.blocks %}
+              	<div class="icon-img">
+                  {% if block.settings.image2 != blank %}
+                    <div class="icon-img-box">
+                      <img src="{{ block.settings.image2 | img_url: 'master' }}" alt="{{ block.settings.image2.alt }}">
+                    </div>
+                  {% endif %}
+                  {% if block.settings.title != blank %}
+                    <span>{{ block.settings.title }}</span>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="Grid__Cell led-info-cell">
+          {% if section.settings.headingbottom != blank %}
+            <h2><span>{{ section.settings.headingbottom }}</span></h2>
+          {% endif %}
+          {% if section.settings.subheadingbottom != blank %}
+            <h5>{{ section.settings.subheadingbottom }}</h5>
+          {% endif %}
+          {% if section.settings.information != blank %}
+            <div class="led-info-list">
+              {{ section.settings.information }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Steering Wheel Dynamic",
+    "settings": [
+	  {
+        "type": "header",
+        "content": "Main Heading"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Dynamic LED"
+      },
+	  {
+        "type": "textarea",
+        "id": "subheading",
+        "label": "Sub Heading",
+        "default": "Plug provided module to OBD2 port and all vehicle info will transfer to the steering wheel wirelessly."
+      },
+	  {
+        "type": "image_picker",
+        "id": "image1",
+        "label": "Add Image"
+      },
+	  {
+        "type": "header",
+        "content": "Bottom Section Right Side"
+      },
+	  {
+        "type": "text",
+        "id": "headingbottom",
+        "label": "Heading Bottom",
+        "default": "RPM, Speed & many more"
+      },
+	  {
+        "type": "textarea",
+        "id": "subheadingbottom",
+        "label": "Sub Heading Bottom",
+        "default": "More than 14 functions to help you drive better"
+      },
+	  {
+        "type": "textarea",
+        "id": "information",
+        "label": "Information Bottom",
+        "default": "More than 14 functions to help you drive better"
+      },
+	  {
+        "type": "header",
+        "content": "Bottom Section Left Side"
+      }
+	],
+	"blocks": [
+      {
+        "type": "bottom_left_side",
+        "name": "Bottom Left Side",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Heading"
+          },
+          {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Add Image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

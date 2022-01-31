@@ -1,0 +1,192 @@
+<section class="select-your-section section-padding">
+  <div class="select-car-container Container">
+    <header class="SectionHeader">
+      <h2 class="SectionHeader__Heading shadow-bottom">{{ section.settings.title }}</h2>
+    </header>
+
+    <div class="select-your-grid Grid Grid--center">
+      <div class="dropdown Grid__Cell">
+        <div class="dropdown-heading">Car Make</div>
+        <select class="carMake Form__Input" name="carmake" data-filter-option="pf_t_car_make">
+          <option value="">Choose Your Car Make</option>          
+        </select>
+      </div>
+      <div class="dropdown Grid__Cell">
+        <div class="dropdown-heading">Car Model</div>
+        <select class="carModel Form__Input" name="carmodel" data-filter-option="pf_t_car_model">
+          <option value="" data-default="true">Choose Your Car Model</option>
+        </select>
+      </div>
+      <div class="dropdown Grid__Cell">
+        <div class="dropdown-heading">Car Year</div>
+        <select class="carYear Form__Input" name="caryear" data-filter-option="pf_t_car_year">
+          <option value="" data-default="true">Choose Your Car Year</option>          
+        </select>
+      </div>
+      <div class="dropdowns Grid__Cell Grid__Cell_btn">
+        <button class="show-results-btn Button dark-btn" disabled>Show Results</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script defer>
+  {% assign collection = collections[section.settings.collection] %}
+  var url = 'https://services.mybcapps.com/bc-sf-filter/filter?shop={{ shop.permanent_domain }}&page=1&limit=1&collection_scope={{ collection.id }}&build_filter_tree=true';
+  var loading_placeholder = '<option value="" data-default="true">Loading...</option>';
+  var make_placeholder = '<option value="" data-default="true">Choose Your Car Make</option>';
+  var model_placeholder = '<option value="" data-default="true">Choose Your Car Model</option>';
+  var year_placeholder = '<option value="" data-default="true">Choose Your Car Year</option>';
+  var year_no_placeholder = '<option value="" data-default="true">No Years Available</option>';
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    var $carMake = jQ('.select-your-section select[data-filter-option="pf_t_car_make"]');
+    var $carModel = jQ('.select-your-section select[data-filter-option="pf_t_car_model"]');
+    var $carYear = jQ('.select-your-section select[data-filter-option="pf_t_car_year"]');
+    var $button = jQ('.select-your-section button');
+
+    function resetFilter() {
+      $carMake.html(make_placeholder);
+      $carModel.html(model_placeholder);
+      $carYear.html(year_placeholder);
+      $button.attr('disabled', true);
+    }
+    
+    function displayName(option, value) {
+      var prefix = option.prefix ? option.prefix.replace(/\\/g, '') : '';
+      
+      if (prefix) {
+        value = value.replace(prefix, '');
+      }
+      
+      return capitalize(value, true, true);      
+    }
+    
+    $carMake.html(loading_placeholder);
+    jQ.get(url, function(data) {
+      resetFilter();
+      
+      var makeFilter = data.filter.options.find(function(opt) { return opt.filterOptionId === 'pf_t_car_make' });
+      if (makeFilter && Array.isArray(makeFilter.values)) {
+        var options = '';
+        
+        makeFilter.values.sort(function(a, b) { return a.key.localeCompare(b.key); }).forEach(function(value) {
+          options += '<option value="' + value.key + '">' + displayName(makeFilter, value.key) + '</option>'
+        });
+        
+        $carMake.append(options);
+      }
+    });
+    
+    $carMake.change(function() {
+      var value = jQ(this).val();
+      $carModel.html(model_placeholder);
+      $carYear.html(year_placeholder);
+      $button.attr('disabled', true);
+      
+      if (!value) return;
+      $carModel.html(loading_placeholder);
+      
+      jQ.get(url + '&_=pf&pf_t_car_make%5B%5D=' + value, function(data) {
+        $carModel.html(model_placeholder);
+
+        var modelFilter = data.filter.options.find(function(opt) { return opt.filterOptionId === 'pf_t_car_model' });
+        if (modelFilter && Array.isArray(modelFilter.values)) {
+          var options = '';
+
+          modelFilter.values.sort(function(a, b) { return a.key.localeCompare(b.key); }).forEach(function(value) {
+            options += '<option value="' + value.key + '">' + displayName(modelFilter, value.key) + '</option>'
+          });
+
+          $carModel.append(options);
+        }
+      });
+    });
+    
+    $carModel.change(function() {
+      var value = jQ(this).val();            
+      $button.attr('disabled', true);
+      $carYear.html(year_placeholder);
+      if (!value) return;     
+      
+      $carYear.html(loading_placeholder);
+      
+      
+      jQ.get(url + '&_=pf&pf_t_car_make%5B%5D=' + value, function(data) {
+        $carYear.html(year_placeholder);
+
+        var yearFilter = data.filter.options.find(function(opt) { return opt.filterOptionId === 'pf_t_car_year' });
+        if (yearFilter && Array.isArray(yearFilter.values)) {
+          var options = '';
+
+          yearFilter.values.sort(function(a, b) { return a.key.localeCompare(b.key); }).forEach(function(value) {
+            options += '<option value="' + value.key + '">' + displayName(yearFilter, value.key) + '</option>'
+          });
+          
+          if (options) {
+            $carYear.append(options);
+          } else {
+            $carYear.html(year_no_placeholder);
+            $button.removeAttr('disabled');
+          }
+        } else {
+          $carYear.html(year_no_placeholder);
+          $button.removeAttr('disabled');
+        }
+      });
+    });
+    
+    
+    $carYear.change(function() {
+      var value = jQ(this).val();
+      if (!value) $button.attr('disabled', true);
+      else $button.removeAttr('disabled');
+    });
+    
+    $button.click(function(e) {
+      e.preventDefault();
+      var query = '';
+
+      jQ('.select-your-section select').each(function() {
+        var filter = $(this).data('filter-option');
+        var option = $(this).val();
+        if (option) {
+        	query += filter + '=' + option + '&';
+        }
+      });
+      
+      if (query) window.location.href = '{{ collection.url }}?' + query;      
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Select Your Car",
+    "settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Select Your Car"
+		},
+	  {
+        "label": "Collection",
+        "id": "collection",
+        "type": "collection"
+      }
+	],
+	"presets": [
+		{
+			"name": "Select Your Car",
+			"category": "Home"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
