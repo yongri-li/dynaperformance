@@ -8,21 +8,14 @@
     <div class="Grid Grid--center">
       <div class="1/2--lap-and-up Grid__Cell after-before-img-col">
         <div class="img-box">
-          {% if section.settings.beforeimage != blank %}
-			<img src="{{ section.settings.beforeimage | img_url: 'master' }}" class="before-image" style="display:none;" alt="{{ section.settings.beforeimage.alt }}">
-          {% endif %}
-          {% if section.settings.afterimage != blank %}
-          	<img src="{{ section.settings.afterimage | img_url: 'master' }}" class="after-image" alt="{{ section.settings.afterimage.alt }}">
-          {% endif %}
-        </div>
-        <div class="img-btn">
-          {% if section.settings.beforetitle != blank %}
-            <a href="javascript:void(0)" id="before_img" class="before_after_images">{{ section.settings.beforetitle }}</a>
-          {% endif %}
-          {% if section.settings.aftertitle != blank %}
-            <a href="javascript:void(0)" id="after_img" class="before_after_images active">{{ section.settings.aftertitle }}</a>
-          {% endif %}
-        </div>
+          <div id="comparison">
+            <figure style="background-image: url({{ section.settings.beforeimage | img_url: 'master' }});">
+              <div id="handle"></div>
+              <div id="divisor" style="background-image: url({{ section.settings.afterimage | img_url: 'master' }});"></div>
+            </figure>
+            <input type="range" min="0" max="100" value="50" id="slider" oninput="moveDivisor()">
+          </div>          
+        </div>        
       </div>
       <div class="1/2--lap-and-up Grid__Cell after-before-info-col">
         {% if section.settings.title != blank %}
@@ -57,18 +50,18 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-  $("#before_img").click(function(){
-    $(".before_after_images").removeClass("active");
-    $(this).addClass("active")
-  	$(".after-image").css("display","none");
-    $(".before-image").fadeIn();
-  })
-  $("#after_img").click(function(){
-  	$(".before_after_images").removeClass("active");
-    $(this).addClass("active")
-  	$(".before-image").css("display","none");
-    $(".after-image").fadeIn();
-  })
+  var divisor = document.getElementById("divisor"),
+    handle = document.getElementById("handle"),
+    slider = document.getElementById("slider");
+
+    function moveDivisor() {
+      handle.style.left = slider.value+"%";
+      divisor.style.width = slider.value+"%";
+    }
+
+    window.onload = function() {
+      moveDivisor();
+    };
 </script>
 
 {% schema %}

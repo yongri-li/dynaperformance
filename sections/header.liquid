@@ -427,16 +427,49 @@ HEADER CONTENT
         </nav>
       {%- endunless -%}
 
+      <div class="search-bar-wrap hidden-tablet hidden-lap hidden-phone">
+        <div id="Search" class="Search" aria-hidden="true">
+          <div class="Search__Inner">
+            <div class="Search__SearchBar">
+              <form action="{{ routes.search_url }}" name="GET" role="search" class="Search__Form">
+                <div class="Search__InputIconWrapper">
+                  <span class="hidden-tablet-and-up">{%- render 'icon' with 'search' -%}</span>
+                  <span class="hidden-phone">{%- render 'icon' with 'search-desktop' -%}</span>
+                </div>
+        
+                <input type="search" class="Search__Input Heading" name="q" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="{{ 'search.general.input_placeholder' | t }}" autofocus>
+                <input type="hidden" name="type" value="product">
+              </form>
+        
+              <button class="Search__Close Link Link--primary" data-action="close-search">{% render 'icon' with 'close' %}</button>
+            </div>
+        
+            <div class="Search__Results" aria-hidden="true">
+              {%- if settings.search_mode != 'product' -%}
+                <div class="PageLayout PageLayout--breakLap">
+                  <div class="PageLayout__Section"></div>
+                  <div class="PageLayout__Section PageLayout__Section--secondary"></div>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {%- if shop.customer_accounts_enabled and section.settings.show_icons or use_sidebar_menu -%}
         <a href="{{ routes.account_url }}" class="Header__Icon Icon-Wrapper Icon-Wrapper--clickable hidden-phone">
           {%- render 'icon' with 'account' -%}
         </a>
       {%- endif -%}
 
-      <a href="{{ routes.search_url }}" class="Header__Icon Icon-Wrapper Icon-Wrapper--clickable {% unless section.settings.show_icons or use_sidebar_menu %}hidden-desk{% endunless %}" data-action="toggle-search" aria-label="{{ 'header.navigation.search' | t }}">
+      <a href="{{ routes.search_url }}" class="Header__Icon Icon-Wrapper Icon-Wrapper--clickable hidden-desk {% unless section.settings.show_icons or use_sidebar_menu %}hidden-desk{% endunless %}" data-action="toggle-search" aria-label="{{ 'header.navigation.search' | t }}">
         <span class="hidden-tablet-and-up">{%- render 'icon' with 'search' -%}</span>
         <span class="hidden-phone">{%- render 'icon' with 'search-desktop' -%}</span>
       </a>
+
+
+
+            
 
       <a href="{{ routes.cart_url }}" class="Header__Icon cart-icon Icon-Wrapper Icon-Wrapper--clickable {% unless section.settings.show_icons or use_sidebar_menu %}hidden-desk{% endunless %}" {% if settings.cart_type == 'drawer' %}data-action="open-drawer" data-drawer-id="sidebar-cart" aria-expanded="false" aria-label="{{ 'header.navigation.open_cart' | t }}"{% endif %}>
         <span class="hidden-tablet-and-up">{%- render 'icon' with 'cart' -%}</span>
